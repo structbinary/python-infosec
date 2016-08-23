@@ -7,6 +7,7 @@ import threading
 import Queue
 import time
 import logging
+import socket
 from optparse import OptionParser
 
 continue_threads = True
