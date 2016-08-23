@@ -1,0 +1,66 @@
+from scapy.all import *
+
+# Finding protocols and detils
+ls()
+ls(IP)
+
+IP().show()
+
+#Sniffing Packets
+
+pkts = sniff(iface="eth1", count=3)
+
+hexdump(pkts[<individual packets>])
+
+#simulating sniffing with a offline pcap capture
+
+pkts = sniff(offline="offline.pcap")
+
+
+#Adding Filters
+
+pkts = sniff(iface="eth1", filter="arp", count=3)
+
+#Print packets live
+
+pkts = sniff(iface="eth1", filter="icmp", count=20, prn=lambda x: x.summary())
+
+#Write packets to a pcap file
+
+wrpcap("demo.pcap", pkts)
+
+#read from pcap
+
+rdpcap("demo.pcap")
+
+#Export packet as Base64 encoded
+export_object(str(pkts[0]))
+
+#Convert packet from Base64 to string
+newPkt = import_object()
+
+#Injecting raw packets in
+pkt = IP(dst="google.com")/ICMP()/"Zukin is hacking"
+#sending forge packet over network
+send(pkt)
+## Scapy Injection and Forging layer 2
+sendp(Ether()/IP(dst="google.com")/ICMP()/"XXX", iface="wlan0", loop=1, inter=1)
+
+## Send and Receive layer 2
+srp(Ether()/IP(dst="google.com", ttl=22)/ICMP()/"xxx")
+srp1(IP(dst="google.com"), timeout=3)
+
+## Send and Receive layer 3
+sr(IP(dst="google.com")/ICMP()/"xxx")
+sr1(IP(dst="google.com"), timeout=3)
+
+
+##routing
+conf.route.add(host="192.168.1.4", gw="192.168.1.1")
+conf.route.resync()
+
+
+"""
+Exercise1 - Create A Packer sniffer with scapy for HTTP protocol and print out the HTTP Headers and data in get/post
+Exercise2 - Create a wifi sniffer and print out the  unique SSIDs of the Wi-Fi networks in your vicinity
+"""
