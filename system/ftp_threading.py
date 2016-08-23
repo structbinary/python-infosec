@@ -31,7 +31,7 @@ class workerThread(threading.Thread):
             self.queue.task_done()
 
 
-queue = Queue.Queue
+queue = Queue.Queue()
 def main():
 
     for i in range(5):
